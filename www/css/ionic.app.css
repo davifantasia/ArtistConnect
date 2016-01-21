@@ -9731,6 +9731,9 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+body {
+  cursor: url("http://ionicframework.com/img/finger.png"); }
+
 .star > .item-content {
   background-color: #eee8d6 !important; }
 
@@ -9743,7 +9746,38 @@ a.button {
 
 .branding {
   width: 50%;
-  max-width: 200px;
+  max-width: 300px;
   margin: 0 auto;
   margin-top: 20px;
   text-align: center; }
+
+.tagline {
+  font-size: 1.4rem; }
+
+.branding p {
+  margin-top: 10px;
+  font-size: 1rem; }
+
+.item-divider {
+  background-color: #eee8d6; }
+
+.bar-positive, .tabs-positive > .tabs {
+  background-color: #417d9a !important;
+  border-color: #417d9a; }
+
+.item-thumbnail-left img {
+  border-radius: 10px; }
+
+.item h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #417d9a; }
+
+.dayhighlight {
+  background-color: #9ec5de;
+  border-top: 20px solid #417d9a; }
+
+.dayhighlight h2 {
+  color: #417d9a;
+  font-size: 2rem;
+  font-weight: 200; }

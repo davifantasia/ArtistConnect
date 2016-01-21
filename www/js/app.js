@@ -68,10 +68,48 @@ angular.module('starter', ['ionic'])
                     controllerAs: 'list'
                 }
             }
+        })
+        .state('tabs.calendar', {
+            url: '/calendar',
+            views: {
+                'calendar-tab' : {
+                    templateUrl: 'templates/calendar.html',
+                    controller: 'CalendarController',
+                    controllerAs: 'calendar'
+                }
+            }
         });
         
     $urlRouterProvider.otherwise('/tab/home');
 })
+
+.controller('CalendarController', ['$scope', '$http', '$state', function($scope, $http, $state) {
+    var calendarCtrl = this;
+    
+    calendarCtrl.calendar = [];
+    
+    $http.get('js/data.json').success(function(data) {
+        calendarCtrl.calendar = data.calendar;
+        
+        calendarCtrl.onItemDelete = function(dayIndex, item) {
+            calendarCtrl.calendar[dayIndex].schedule.splice(calendarCtrl.calendar[dayIndex].schedule.indexOf(item), 1);
+        };
+        
+        calendarCtrl.doRefresh = function() {
+            $http.get('js/data.json').success(function(data) {
+                calendarCtrl.calendar = data.calendar;
+            })
+            .finally(function() {
+                // Stop the ion-refresher from spinning
+                $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
+        
+        calendarCtrl.toggleStar = function(item) {
+            item.star = !item.star;
+        }
+    });
+}])
 
 .controller('ListController', ['$scope', '$http', '$state', function($scope, $http, $state) {
     var listCtrl = this;
@@ -111,3 +149,4 @@ angular.module('starter', ['ionic'])
         };
     });
 }])
+;

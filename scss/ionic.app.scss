@@ -21,18 +21,19 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-$starredItemBackground: #eee8d6;
+// My imports
+@import "mixins.scss";
+@import "variables.scss";
 
-@mixin splash-background($urlValue: "../img/skyline.jpg") {
-    background: url($urlValue) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+
+body {
+    cursor: url('http://ionicframework.com/img/finger.png');
 }
 
-.star>.item-content {
-    background-color: $starredItemBackground !important;
+.star {
+    >.item-content {
+        background-color: $starredItemBackground !important;
+    }
 }
 
 .splash {
@@ -41,8 +42,55 @@ $starredItemBackground: #eee8d6;
 
 .branding {
     width: 50%;
-    max-width: 200px;
+    max-width: 300px;
     margin: 0 auto;
     margin-top: 20px;
     text-align: center;
+}
+
+.tagline {
+    font-size: 1.4rem;
+}
+
+.branding {
+    p  {
+        margin-top: 10px;
+        font-size: 1rem;
+    }
+}
+
+.item-divider {
+    background-color: $itemDividerBackgroundColor;
+}
+
+.bar-positive, .tabs-positive>.tabs {
+    background-color: $barPositiveBackgroundColor !important;
+    border-color: $barPositiveBackgroundColor;
+}
+
+.item-thumbnail-left {
+    img {
+        border-radius: 10px;
+    }
+}
+
+.item {
+    h3 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: $barPositiveBackgroundColor;
+    }
+}
+
+.dayhighlight {
+    background-color: $dayHighlightBackgroundColor;
+    border-top: 20px solid $barPositiveBackgroundColor;
+}
+
+.dayhighlight {
+    h2 {
+        color: $barPositiveBackgroundColor;
+        font-size: 2rem;
+        font-weight: 200;
+    }
 }
