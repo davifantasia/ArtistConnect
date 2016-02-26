@@ -5,13 +5,11 @@
 <ion-view>
     <ion-content>
         <ion-list class="list-inset">
-            <ion-item class="item-text-wrap" ng-repeat="artist in list.artists | filter: {shortname: list.whichArtist}">
-                
-                <img ng-src="img/{{artist.shortname}}_tn.jpg" alt="{{artist.name}} Photo">
-                <h2>{{artist.name}}</h2>
-                <h3>{{artist.reknown}}</h3>
-                <p>{{artist.bio}}</p>
-                
+            <ion-item class="item-text-wrap" ng-repeat="item in artists | filter: { shortname: whichartist }">
+                <img ng-src="img/{{item.shortname}}_tn.jpg" alt="{{ item.name }} Photo">
+                <h2>{{ item.name }}</h2>
+                <h3>{{ item.reknown }}</h3>
+                <p>{{ item.bio }}</p>
             </ion-item>
         </ion-list>
     </ion-content>
