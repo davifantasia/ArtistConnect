@@ -2,11 +2,14 @@
     var starterControllersApp = angular.module('starter-controllers', []);
 
     starterControllersApp.controller('ListController', [
-        '$scope', '$http', '$state',
-        function ($scope, $http, $state) {
+        '$scope', '$http', '$state', 'adsManager',
+        function ($scope, $http, $state, adsManager) {
             $http.get('js/data.json').success(function (data) {
                 $scope.artists = data.artists;
+                
                 $scope.whichartist = $state.params.aId;
+                if ($scope.whichartist) adsManager.showInterstitialAdIfDeviceIsMobile();
+                
                 $scope.data = { showDelete: false, showReorder: false };
 
                 $scope.onItemDelete = function (item) {
@@ -53,4 +56,4 @@
                 };
             });
         }]);
-})(); // Closure for this controller.
+})();
