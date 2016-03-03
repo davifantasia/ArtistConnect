@@ -2,13 +2,13 @@
     var starterControllersApp = angular.module('starter-controllers', []);
 
     starterControllersApp.controller('ListController', [
-        '$scope', '$http', '$state', 'adsManager',
-        function ($scope, $http, $state, adsManager) {
+        '$scope', '$http', '$state', 'starterServices',
+        function ($scope, $http, $state, starterServices) {
             $http.get('js/data.json').success(function (data) {
                 $scope.artists = data.artists;
                 
                 $scope.whichartist = $state.params.aId;
-                if ($scope.whichartist) adsManager.showInterstitialAdIfDeviceIsMobile();
+                if ($scope.whichartist) starterServices.showInterstitialAds();
                 
                 $scope.data = { showDelete: false, showReorder: false };
 

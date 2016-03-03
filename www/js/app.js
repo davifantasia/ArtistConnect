@@ -4,7 +4,7 @@
     // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
     // the 2nd parameter is an array of 'requires'
     angular.module('starter', ['ionic', 'starter-controllers', 'starter-services'])
-    .run(function ($ionicPlatform, adsManager) {
+    .run(function ($ionicPlatform, starterServices) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -15,7 +15,7 @@
                 StatusBar.styleDefault();
             }
             
-            adsManager.initializeAds();
+            starterServices.initializeAds();
         });
     }).config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider.state('tabs', {
