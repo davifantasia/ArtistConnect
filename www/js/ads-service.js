@@ -1,8 +1,8 @@
 (function () {
-    var adsService = angular.module('ads-service', []);
+    var adsServiceApp = angular.module('ads-service', []);
     
-    adsService.factory('adsManager', ['$rootScope', '$log', function ($rootScope, $log) {
-        var adsManager = {
+    adsServiceApp.factory('adsService', ['$rootScope', '$log', function ($rootScope, $log) {
+        var adsService = {
             admobId: {},
             
             interstitialIsReady: false,
@@ -87,16 +87,16 @@
             },
             
             addOnAdLoadedListener: function () {
-                var adsManagerThis = this;
+                var adsServiceThis = this;
                 document.addEventListener('onAdLoaded', function(data){
-                    adsManagerThis.onAdLoaded(data);
+                    adsServiceThis.onAdLoaded(data);
                 });
             },
             
             onAdLoaded: function (data) {
-                var adsManagerThis = this;
+                var adsServiceThis = this;
                 $rootScope.$apply(function(){
-                    adsManagerThis.showBannerOrSetInterstitialIsReadyToTrue(data);
+                    adsServiceThis.showBannerOrSetInterstitialIsReadyToTrue(data);
                 });
             },
             
@@ -106,9 +106,9 @@
             },
             
             addOnAdDismissListener: function () {
-                var adsManagerThis = this;
+                var adsServiceThis = this;
                 document.addEventListener('onAdDismiss',function(data){
-                    adsManagerThis.onAdDismiss(data);
+                    adsServiceThis.onAdDismiss(data);
                 });
             },
             
@@ -124,17 +124,17 @@
             },
             
             addOnAdFailLoadListener: function () {
-                var adsManagerThis = this;
+                var adsServiceThis = this;
                 document.addEventListener('onAdFailLoad',function(data){
-                    adsManagerThis.onAdFailLoad(data);
+                    adsServiceThis.onAdFailLoad(data);
                 });
             },
             
             onAdFailLoad: function (data) {
-                var adsManagerThis = this;
+                var adsServiceThis = this;
                 $rootScope.$apply(function(){
-                    adsManagerThis.logError(data);
-                    adsManagerThis.hideBannerOrSetInterstitialIsReadyToFalse(data);
+                    adsServiceThis.logError(data);
+                    adsServiceThis.hideBannerOrSetInterstitialIsReadyToFalse(data);
                 });
             },
             
@@ -166,6 +166,6 @@
             
         }
     
-        return adsManager;
+        return adsService;
     }]);
 })();

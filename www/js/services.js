@@ -1,14 +1,14 @@
 (function () {
     var starterServicesApp = angular.module('starter-services', ['ads-service']);
     
-    starterServicesApp.factory('starterServices', ['adsManager', function (adsManager) {
+    starterServicesApp.factory('starterServices', ['adsService', function (adsService) {
         var starterServices = {
             initializeAds: function() {
-               adsManager.initializeAds();
+               adsService.initializeAds();
             },
             
             showInterstitialAds: function() {
-                adsManager.showInterstitialAdIfDeviceIsMobile();
+                adsService.showInterstitialAdIfDeviceIsMobile();
             }
         }
     
