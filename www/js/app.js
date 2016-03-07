@@ -18,18 +18,21 @@
             starterServices.initializeAds();
         });
     }).config(function ($stateProvider, $urlRouterProvider) {
-        $stateProvider.state('tabs', {
+        $stateProvider
+        .state('tabs', {
             url: '/tab',
             abstract: true,
             templateUrl: 'templates/tabs.html'
-        }).state('tabs.home', {
+        })
+        .state('tabs.home', {
             url: '/home',
             views: {
                 'home-tab': {
                     templateUrl: 'templates/home.html'
                 }
             }
-        }).state('tabs.list', {
+        })
+        .state('tabs.list', {
             url: '/list',
             views: {
                 'list-tab': {
@@ -37,7 +40,8 @@
                     controller: 'ListController'
                 }
             }
-        }).state('tabs.detail', {
+        })
+        .state('tabs.detail', {
             url: '/list/:aId',
             views: {
                 'list-tab': {
@@ -45,7 +49,8 @@
                     controller: 'ListController'
                 }
             }
-        }).state('tabs.calendar', {
+        })
+        .state('tabs.calendar', {
             url: '/calendar',
             views: {
                 'calendar-tab': {

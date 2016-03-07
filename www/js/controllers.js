@@ -2,14 +2,14 @@
     var starterControllersApp = angular.module('starter-controllers', []);
 
     starterControllersApp.controller('ListController', [
-        '$scope', '$http', '$state', 'starterServices',
-        function ($scope, $http, $state, starterServices) {
+        '$scope', '$http', '$state', '$rootScope', 'starterServices',
+        function ($scope, $http, $state, $rootScope, starterServices) {
             $http.get('js/data.json').success(function (data) {
                 $scope.artists = data.artists;
-                
+
                 $scope.whichartist = $state.params.aId;
                 if ($scope.whichartist) starterServices.showInterstitialAds();
-                
+
                 $scope.data = { showDelete: false, showReorder: false };
 
                 $scope.onItemDelete = function (item) {
@@ -31,6 +31,11 @@
                     $scope.artists.splice(fromIndex, 1);
                     $scope.artists.splice(toIndex, 0, item);
                 };
+                
+                
+                // MEME.
+                
+                
             });
         }]);
 

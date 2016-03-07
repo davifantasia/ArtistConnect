@@ -18,171 +18,164 @@
     }])
     
     .factory('adsService', ['$rootScope', '$log', function ($rootScope, $log) {
-        var adsService = {
-            admobId: {},
+        function AdsService() {
+            var admobid = {};
+            var interstitialIsReady = false;
             
-            interstitialIsReady: false,
-            
-            initializeAds: function() {
+            this.initializeAds = function () {
                 // AdMob object works only on mobile devices so ensure device is mobile.
-                if (this.isMobileDevice()){
+                if (isMobileDevice()){
                     $log.log("This is a mobile device.");
-                    this.continueWithAdsInitialization();
+                    continueWithAdsInitialization();
                 } else $log.warn("This is NOT a mobile device - Admob ads will not work.");
-            },
+            };
             
-            isMobileDevice: function() {
+            var isMobileDevice = function () {
                 return ionic.Platform.isIPad()
                 || ionic.Platform.isIOS()
                 || ionic.Platform.isAndroid()
                 || ionic.Platform.isWindowsPhone();
-            },
+            };
             
-            continueWithAdsInitialization: function () {
-                
-                this.getAdmobId();
-                this.initializeBannerAd();
-                this.initializeInterstitialAd();
-                this.initializeAdsEventListeners();
-            },
+            var continueWithAdsInitialization = function () {
+                getAdmobId();
+                initializeBannerAd();
+                initializeInterstitialAd();
+                initializeAdsEventListeners();
+            };
             
-            getAdmobId: function () {            
+            var getAdmobId = function () {
                 if (/(android)/i.test(navigator.userAgent)) { // for android & amazon-fireos
-                    this.admobid = this.getAndroidAdmobId();
+                    admobid = getAndroidAdmobId();
                 } else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
-                    this.admobid = this.getIOSAdmobId();
+                    admobid = getIOSAdmobId();
                 } else { // for windows phone
-                    this.admobid = this.getWindowsAdmobId();
+                    admobid = getWindowsAdmobId();
                 }
-            },
+            };
             
-            getAndroidAdmobId: function () {
+            var getAndroidAdmobId = function () {
                 return {
                     banner: 'ca-app-pub-3940256099942544/6300978111', // or DFP format "/6253334/dfp_example_ad"
                     interstitial: 'ca-app-pub-3940256099942544/1033173712'
                 };
-            },
+            };
             
-            getIOSAdmobId: function () {
+            var getIOSAdmobId = function () {
                 return {
                     banner: 'ca-app-pub-3940256099942544/6300978111', // or DFP format "/6253334/dfp_example_ad"
                     interstitial: 'ca-app-pub-3940256099942544/1033173712'
                 };
-            },
+            };
             
-            getWindowsAdmobId: function () {
+            var getWindowsAdmobId = function () {
                 return {
                     banner: 'ca-app-pub-3940256099942544/6300978111', // or DFP format "/6253334/dfp_example_ad"
                     interstitial: 'ca-app-pub-3940256099942544/1033173712'
                 };
-            },
+            };
             
-            initializeBannerAd: function () {
-                this.createAndShowBannerAd();
-            },
+            var initializeBannerAd = function () {
+                createAndShowBannerAd();
+            };
             
-            createAndShowBannerAd: function () {
-                var admobid = this.admobid;
-                
+            var createAndShowBannerAd = function () {
                 if(AdMob) AdMob.createBanner( {
                     adId: admobid.banner, 
                     position: AdMob.AD_POSITION.BOTTOM_CENTER, 
                     autoShow: false } );
-            },
+            };
             
-            initializeInterstitialAd: function () {
-                var admobid = this.admobid;
-                
+            var initializeInterstitialAd = function () {                
                 if(AdMob) AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false} );
-            },
+            };
             
-            initializeAdsEventListeners: function () {
-                this.addOnAdLoadedListener();
-                this.addOnAdDismissListener();
-                this.addOnAdFailLoadListener();
-            },
+            var initializeAdsEventListeners = function () {
+                addOnAdLoadedListener();
+                addOnAdDismissListener();
+                addOnAdFailLoadListener();
+            };
             
-            addOnAdLoadedListener: function () {
-                var adsServiceThis = this;
+            var addOnAdLoadedListener = function () {
                 document.addEventListener('onAdLoaded', function(data){
-                    adsServiceThis.onAdLoaded(data);
+                    onAdLoaded(data);
                 });
-            },
+            };
             
-            onAdLoaded: function (data) {
-                var adsServiceThis = this;
+            var onAdLoaded = function (data) {
                 $rootScope.$apply(function(){
-                    adsServiceThis.showBannerOrSetInterstitialIsReadyToTrue(data);
+                    showBanner(data);
+                    setInterstitialIsReadyToTrue(data);
                 });
-            },
+            };
             
-            showBannerOrSetInterstitialIsReadyToTrue: function (data) {
+            var showBanner = function (data) {
                 if(data.adType == 'banner') AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
-                else if(data.adType == 'interstitial') this.interstitialIsReady = true;
-            },
+            };
             
-            addOnAdDismissListener: function () {
-                var adsServiceThis = this;
+            var setInterstitialIsReadyToTrue = function (data) {
+                if(data.adType == 'interstitial') interstitialIsReady = true;
+            };
+            
+            var addOnAdDismissListener = function () {
                 document.addEventListener('onAdDismiss',function(data){
-                    adsServiceThis.onAdDismiss(data);
+                    onAdDismiss(data);
                 });
-            },
+            };
             
-            onAdDismiss: function (data) {
+            var onAdDismiss = function (data) {
                 if(data.adType == 'interstitial') {
-                    this.reinitializeInterstitialAd();
+                    reinitializeInterstitialAd();
                 }
-            },
+            };
             
-            reinitializeInterstitialAd: function () {
-                this.interstitialIsReady = false;
-                this.initializeInterstitialAd();
-            },
+            var reinitializeInterstitialAd = function () {
+                interstitialIsReady = false;
+                initializeInterstitialAd();
+            };
             
-            addOnAdFailLoadListener: function () {
-                var adsServiceThis = this;
+            var addOnAdFailLoadListener = function () {
                 document.addEventListener('onAdFailLoad',function(data){
-                    adsServiceThis.onAdFailLoad(data);
+                    onAdFailLoad(data);
                 });
-            },
+            };
             
-            onAdFailLoad: function (data) {
-                var adsServiceThis = this;
+            var onAdFailLoad = function (data) {
                 $rootScope.$apply(function(){
-                    adsServiceThis.logError(data);
-                    adsServiceThis.hideBannerOrSetInterstitialIsReadyToFalse(data);
+                    logError(data);
+                    hideBannerOrSetInterstitialIsReadyToFalse(data);
                 });
-            },
+            };
             
-            logError: function (data) {
-                var adTypeError = this.getAdTypError(data);                
+            var logError = function (data) {
+                var adTypeError = getAdTypError(data);                
                 var errorFromAdServer = data.error + ', ' + data.reason;
                 var error = adTypeError.concat(": ", errorFromAdServer);
                 
                 $log.error(error);
-            },
+            };
             
-            getAdTypError: function (data) {
+            var getAdTypError = function (data) {
                 if(data.adType == 'banner') return "Banner failed to load";
                 else if(data.adType == 'interstitial') return "Interstitial failed to load";
-            },
+            };
             
-            hideBannerOrSetInterstitialIsReadyToFalse: function (data) {
+            var hideBannerOrSetInterstitialIsReadyToFalse = function (data) {
                 if(data.adType == 'banner') AdMob.hideBanner();
-                else if(data.adType == 'interstitial') this.interstitialIsReady = false;
-            },
+                else if(data.adType == 'interstitial') interstitialIsReady = false;
+            };
             
-            showInterstitialAdIfDeviceIsMobile: function () {
-                if (this.isMobileDevice()) this.showInterstitialAdIfItIsReady();
-            },
+            this.showInterstitialAdIfDeviceIsMobile = function () {
+                if (isMobileDevice()) showInterstitialAdIfItIsReady();
+            };
             
-            showInterstitialAdIfItIsReady: function () {
-                if (this.interstitialIsReady) AdMob.showInterstitial();
-            }
+            var showInterstitialAdIfItIsReady = function () {
+                if (interstitialIsReady) AdMob.showInterstitial();
+            };
             
         }
-    
-        return adsService;
+        
+        return new AdsService();
     }])
     
     ;
