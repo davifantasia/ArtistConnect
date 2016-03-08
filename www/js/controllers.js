@@ -1,14 +1,17 @@
 (function () {
-    var starterControllersApp = angular.module('starter-controllers', []);
+    var app = angular.module('starter-controllers', []);
 
-    starterControllersApp.controller('ListController', [
-        '$scope', '$http', '$state', '$rootScope', 'starterServices',
-        function ($scope, $http, $state, $rootScope, starterServices) {
+    app.controller('ListController', [
+        '$scope', '$http', '$state', 'adsService', 'customBackNavigationService',
+        function ($scope, $http, $state, adsService, customBackNavigationService) {
             $http.get('js/data.json').success(function (data) {
                 $scope.artists = data.artists;
 
                 $scope.whichartist = $state.params.aId;
-                if ($scope.whichartist) starterServices.showInterstitialAds();
+                
+                if ($scope.whichartist) {
+                    customBackNavigationService.initializeCustomBackNavigation($scope);
+                }
 
                 $scope.data = { showDelete: false, showReorder: false };
 
@@ -32,14 +35,10 @@
                     $scope.artists.splice(toIndex, 0, item);
                 };
                 
-                
-                // MEME.
-                
-                
             });
         }]);
 
-    starterControllersApp.controller('CalendarController', [
+    app.controller('CalendarController', [
         '$scope', '$http', '$state',
         function ($scope, $http, $state) {
             $http.get('js/data.json').success(function (data) {

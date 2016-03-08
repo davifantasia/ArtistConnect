@@ -1,23 +1,7 @@
 (function () {
-    var starterServicesApp = angular.module('starter-services', []);
+    var app = angular.module('ads-service', []);
     
-    starterServicesApp
-    
-    .factory('starterServices', ['adsService', function (adsService) {
-        var starterServices = {
-            initializeAds: function() {
-               adsService.initializeAds();
-            },
-            
-            showInterstitialAds: function() {
-                adsService.showInterstitialAdIfDeviceIsMobile();
-            }
-        }
-    
-        return starterServices;
-    }])
-    
-    .factory('adsService', ['$rootScope', '$log', function ($rootScope, $log) {
+    app.factory('adsService', ['$rootScope', '$log', function ($rootScope, $log) {
         function AdsService() {
             var admobid = {};
             var interstitialIsReady = false;
@@ -165,7 +149,11 @@
                 else if(data.adType == 'interstitial') interstitialIsReady = false;
             };
             
-            this.showInterstitialAdIfDeviceIsMobile = function () {
+            this.showInterstitialAd = function () {
+                showInterstitialAdIfDeviceIsMobile();
+            };
+            
+            var showInterstitialAdIfDeviceIsMobile = function () {
                 if (isMobileDevice()) showInterstitialAdIfItIsReady();
             };
             
@@ -176,7 +164,5 @@
         }
         
         return new AdsService();
-    }])
-    
-    ;
+    }]);
 })();
